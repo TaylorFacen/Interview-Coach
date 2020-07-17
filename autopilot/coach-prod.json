@@ -1,0 +1,335 @@
+{
+    "friendlyName" : "Speech Coach - Prod",
+    "logQueries" : true,
+    "uniqueName" : "coach-prod",
+    "defaults" : {
+        "defaults" : {
+            "assistant_initiation" : "task://greeting",
+            "fallback" : "task://fallback",
+            "collect" : {
+                "validate_on_failure" : "task://collect_fallback"
+            }
+        }
+    },
+    "styleSheet" : {
+        "style_sheet" : {
+            "collect" : {
+                "validate" : {
+                    "on_failure" : {
+                        "repeat_question" : false,
+                        "messages" : [
+                            {
+                                "say" : {
+                                    "speech" : "I didn't get that. What did you say?"
+                                }
+                            },
+                            {
+                                "say" : {
+                                    "speech" : "I still didn't catch that. Please repeat."
+                                }
+                            },
+                            {
+                                "say" : {
+                                    "speech" : "Let's try one last time. Say it again please."
+                                }
+                            }
+                        ]
+                    },
+                    "on_success" : { "say" : { "speech" : "" } },
+                    "max_attempts" : 4
+                }
+            },
+            "voice" : {
+                "say_voice" : "Polly.Kendra"
+            },
+            "name" : ""
+        }
+    },
+    "fieldTypes" : [],
+    "tasks" : [
+        {
+            "uniqueName" : "start_interview_practice",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "Hello there! Let's get some practice in. "
+                    },
+                    {
+                        "collect" : {
+                            "on_complete" : {
+                                "redirect" : {
+                                    "method" : "POST",
+                                    "uri" : "https://interview-coach.herokuapp.com//api/call"
+                                }
+                            },
+                            "name" : "category_selection",
+                            "questions" : [
+                                {
+                                    "validate" : {
+                                        "on_failure" : {
+                                            "messages" : [
+                                                {
+                                                    "say" : "That's not a valid interview question type."
+                                                }
+                                            ]
+                                        },
+                                        "allowed_values" : {
+                                            "list" : [
+                                                "personal",
+                                                "behavioral",
+                                                "technical"
+                                            ]
+                                        }
+                                    },
+                                    "question" : "\n\nWhat kind of interview would you like to practice? You can choose from the following list. \n\n - Personal: Introduces the candidate to the interviewer.\n - Behavioral: Uses past experiences to highlight your aptitude and approach to a task or situation.\n - Technical: Used to assess your knowledge about programming and computer science topics.",
+                                    "name" : "category"
+                                },
+                                {
+                                    "type" : "Twilio.NUMBER",
+                                    "question" : "How many questions do you want?",
+                                    "name" : "limit"
+                                },
+                                {
+                                    "validate" : {
+                                        "on_failure" : {
+                                            "messages" : [
+                                                {
+                                                    "say" : "No worries. Let me know when you're ready."
+                                                }
+                                            ]
+                                        },
+                                        "allowed_values" : {
+                                            "list" : ["Ready", "I'm Ready"]
+                                        }
+                                    },
+                                    "question" : "Great! I'll call you in a few so that we can practice. When you're ready, text back saying 'Ready'",
+                                    "name" : "ready"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Practice interview"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "I want to practice an interview."
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Interview"
+                }
+            ]
+        },
+        {
+            "uniqueName" : "conduct_interview",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "Hello there. Let's get started with your interview."
+                    },
+                    {
+                        "redirect" : {
+                            "uri" : "https://interview-coach.herokuapp.com//api/build_session"
+                        }
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        },
+        {
+            "uniqueName" : "collect_fallback",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "Looks like I'm having trouble. Apologies for that. Let's start again, how can I help you today?"
+                    },
+                    { "listen" : true }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        },
+        {
+            "uniqueName" : "greeting",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "Hello, what can I help you with today?"
+                    },
+                    { "listen" : true }
+                ]
+            },
+            "fields" : [],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "whatsup"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "hi!"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "hi there."
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "sup"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "what can you do"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "what do you do"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "hey"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "yo"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "hello"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "what'us up"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "good afternoon"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "heya"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Hello."
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "hi there"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "good morning"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Hi"
+                }
+            ]
+        },
+        {
+            "uniqueName" : "goodbye",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "Thank you! Please reach out again if you need anything. Goodbye."
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "see ya"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "bye bye"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "stop"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "good bye"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "that's all"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "no"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "cancel"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "stop talking"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "that would be all"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "goodnight"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "go away"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "goodbye"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "no thanks"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "that is all thank you"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "that would be all thanks"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "no thanks"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "that's all for today"
+                }
+            ]
+        },
+        {
+            "uniqueName" : "fallback",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "I'm sorry didn't quite get that. Please say that again."
+                    },
+                    { "listen" : true }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
+        }
+    ],
+    "modelBuild" : {
+        "uniqueName" : "Built on 10-31-2019 04:14:28"
+    }
+}

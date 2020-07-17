@@ -1,0 +1,134 @@
+{
+    "friendlyName" : "coach-dev",
+    "logQueries" : true,
+    "uniqueName" : "coach-dev",
+    "defaults" : {
+        "defaults" : {
+            "assistant_initiation" : "task://greeting",
+            "fallback" : "task://fallback",
+            "collect" : {
+                "validate_on_failure" : "task://collect_fallback"
+            }
+        }
+    },
+    "styleSheet" : {
+        "style_sheet" : {
+            "collect" : {
+                "validate" : {
+                    "on_failure" : {
+                        "repeat_question" : false,
+                        "messages" : [
+                            {
+                                "say" : {
+                                    "speech" : "I didn't get that. What did you say?"
+                                }
+                            },
+                            {
+                                "say" : {
+                                    "speech" : "I still didn't catch that. Please repeat."
+                                }
+                            },
+                            {
+                                "say" : {
+                                    "speech" : "Let's try one last time. Say it again please."
+                                }
+                            }
+                        ]
+                    },
+                    "on_success" : { "say" : { "speech" : "" } },
+                    "max_attempts" : 4
+                }
+            },
+            "voice" : {
+                "say_voice" : "Polly.Kendra"
+            },
+            "name" : ""
+        }
+    },
+    "fieldTypes" : [],
+    "tasks" : [
+        {
+            "uniqueName" : "process_interview_request",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "Hello there! Let's get some practice in. "
+                    },
+                    {
+                        "collect" : {
+                            "on_complete" : {
+                                "redirect" : {
+                                    "method" : "POST",
+                                    "uri" : "https://60e11ab5208f.ngrok.io/api/process_interview_request"
+                                }
+                            },
+                            "name" : "category_selection",
+                            "questions" : [
+                                {
+                                    "validate" : {
+                                        "on_failure" : {
+                                            "messages" : [
+                                                {
+                                                    "say" : "That's not a valid interview question type."
+                                                }
+                                            ]
+                                        },
+                                        "allowed_values" : {
+                                            "list" : [
+                                                "personal",
+                                                "behavioral",
+                                                "technical",
+                                                "professional"
+                                            ]
+                                        }
+                                    },
+                                    "question" : "\n\nWhat kind of interview would you like to practice? You can choose from the following list. \n\n - Personal: Introduces the candidate to the interviewer.\n - Behavioral: Uses past experiences to highlight your aptitude and approach to a task or situation.\n - Technical: Used to assess your knowledge about programming and computer science topics.\n - Professional: These are general questions that would be asked during a job interview.",
+                                    "name" : "category"
+                                },
+                                {
+                                    "type" : "Twilio.NUMBER",
+                                    "question" : "How many questions do you want?",
+                                    "name" : "limit"
+                                },
+                                {
+                                    "validate" : {
+                                        "on_failure" : {
+                                            "messages" : [
+                                                {
+                                                    "say" : "No worries. Let me know when you're ready."
+                                                }
+                                            ]
+                                        },
+                                        "allowed_values" : {
+                                            "list" : ["Ready", "I'm Ready"]
+                                        }
+                                    },
+                                    "question" : "Great! I'll call you in a few so that we can practice. When you're ready, text back saying 'Ready'",
+                                    "name" : "ready"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : [
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Practice interview"
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "I want to practice an interview."
+                },
+                {
+                    "language" : "en-US",
+                    "taggedText" : "Interview"
+                }
+            ]
+        }
+    ],
+    "modelBuild" : {
+        "uniqueName" : "Built on 06-17-2020 12:56:28"
+    }
+}
