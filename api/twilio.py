@@ -28,6 +28,13 @@ class Twilio:
         response.headers['Content-type'] = 'text/html; charset=utf-8'
 
         return response
+    
+    def get_document(self, phone_number):
+        document = client.sync.services(self.SYNC_SERVICE_SID) \
+            .documents(phone_number) \
+                .fetch()
+                
+        return document
 
     def store_document(self, data, phone_number):
         """ Store information in Sync document """
