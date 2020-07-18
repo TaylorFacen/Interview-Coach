@@ -1,5 +1,5 @@
 {
-    "friendlyName" : "Speech Coach - Prod",
+    "friendlyName" : "coach-prod",
     "logQueries" : true,
     "uniqueName" : "coach-prod",
     "defaults" : {
@@ -48,7 +48,7 @@
     "fieldTypes" : [],
     "tasks" : [
         {
-            "uniqueName" : "start_interview_practice",
+            "uniqueName" : "process_interview_request",
             "actions" : {
                 "actions" : [
                     {
@@ -59,7 +59,7 @@
                             "on_complete" : {
                                 "redirect" : {
                                     "method" : "POST",
-                                    "uri" : "https://interview-coach.herokuapp.com//api/call"
+                                    "uri" : "https://interview-coach.vercel.app/api/process_interview_request"
                                 }
                             },
                             "name" : "category_selection",
@@ -77,11 +77,12 @@
                                             "list" : [
                                                 "personal",
                                                 "behavioral",
-                                                "technical"
+                                                "technical",
+                                                "professional"
                                             ]
                                         }
                                     },
-                                    "question" : "\n\nWhat kind of interview would you like to practice? You can choose from the following list. \n\n - Personal: Introduces the candidate to the interviewer.\n - Behavioral: Uses past experiences to highlight your aptitude and approach to a task or situation.\n - Technical: Used to assess your knowledge about programming and computer science topics.",
+                                    "question" : "\n\nWhat kind of interview would you like to practice? You can choose from the following list. \n\n - Personal: Introduces the candidate to the interviewer.\n - Behavioral: Uses past experiences to highlight your aptitude and approach to a task or situation.\n - Technical: Used to assess your knowledge about programming and computer science topics.\n - Professional: These are general questions that would be asked during a job interview.",
                                     "name" : "category"
                                 },
                                 {
@@ -125,8 +126,7 @@
                     "taggedText" : "Interview"
                 }
             ]
-        },
-        {
+        }, {
             "uniqueName" : "conduct_interview",
             "actions" : {
                 "actions" : [
@@ -135,194 +135,9 @@
                     },
                     {
                         "redirect" : {
-                            "uri" : "https://interview-coach.herokuapp.com//api/build_session"
+                            "uri" : "https://interview-coach.vercel.app/api/build_session"
                         }
                     }
-                ]
-            },
-            "fields" : [],
-            "samples" : []
-        },
-        {
-            "uniqueName" : "collect_fallback",
-            "actions" : {
-                "actions" : [
-                    {
-                        "say" : "Looks like I'm having trouble. Apologies for that. Let's start again, how can I help you today?"
-                    },
-                    { "listen" : true }
-                ]
-            },
-            "fields" : [],
-            "samples" : []
-        },
-        {
-            "uniqueName" : "greeting",
-            "actions" : {
-                "actions" : [
-                    {
-                        "say" : "Hello, what can I help you with today?"
-                    },
-                    { "listen" : true }
-                ]
-            },
-            "fields" : [],
-            "samples" : [
-                {
-                    "language" : "en-US",
-                    "taggedText" : "whatsup"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hi!"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hi there."
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "sup"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "what can you do"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "what do you do"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hey"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "yo"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hello"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "what'us up"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "good afternoon"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "heya"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "Hello."
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "hi there"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "good morning"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "Hi"
-                }
-            ]
-        },
-        {
-            "uniqueName" : "goodbye",
-            "actions" : {
-                "actions" : [
-                    {
-                        "say" : "Thank you! Please reach out again if you need anything. Goodbye."
-                    }
-                ]
-            },
-            "fields" : [],
-            "samples" : [
-                {
-                    "language" : "en-US",
-                    "taggedText" : "see ya"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "bye bye"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "stop"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "good bye"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "that's all"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "no"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "cancel"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "stop talking"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "that would be all"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "goodnight"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "go away"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "goodbye"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "no thanks"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "that is all thank you"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "that would be all thanks"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "no thanks"
-                },
-                {
-                    "language" : "en-US",
-                    "taggedText" : "that's all for today"
-                }
-            ]
-        },
-        {
-            "uniqueName" : "fallback",
-            "actions" : {
-                "actions" : [
-                    {
-                        "say" : "I'm sorry didn't quite get that. Please say that again."
-                    },
-                    { "listen" : true }
                 ]
             },
             "fields" : [],
@@ -330,6 +145,6 @@
         }
     ],
     "modelBuild" : {
-        "uniqueName" : "Built on 10-31-2019 04:14:28"
+        "uniqueName" : "Built on 06-17-2020 12:56:28"
     }
 }
