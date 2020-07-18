@@ -3,14 +3,14 @@ from twilio.rest import Client
 from twilio.twiml.voice_response import Connect, VoiceResponse
 
 from .aws import upload_file
-from .config import VERCEL_URL, ACCOUNT_SID, ASSISTANT_SID, AUTH_TOKEN, SYNC_SERVICE_SID, TWILIO_NUMBER
+from .config import VERCEL_URL, TWILIO_ACCOUNT_SID, TWILIO_ASSISTANT_SID, TWILIO_AUTH_TOKEN, TWILIO_SYNC_SERVICE_SID, TWILIO_NUMBER
 
 class Twilio:
     def __init__(self):
-        self.ASSISTANT_SID = ASSISTANT_SID
-        self.SYNC_SERVICE_SID = SYNC_SERVICE_SID
+        self.TWILIO_ASSISTANT_SID = TWILIO_ASSISTANT_SID
+        self.TWILIO_SYNC_SERVICE_SID = TWILIO_SYNC_SERVICE_SID
         self.TWILIO_NUMBER = TWILIO_NUMBER
-        self.client = Client(ACCOUNT_SID, AUTH_TOKEN)
+        self.client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     
     def call_user(self, phone_number):
         call = self.client.calls.create(
@@ -24,7 +24,7 @@ class Twilio:
         response = VoiceResponse()
 
         connect = Connect()
-        connect.autopilot(self.ASSISTANT_SID, TargetTask = "conduct_interview")
+        connect.autopilot(self.TWILIO_ASSISTANT_SID, TargetTask = "conduct_interview")
         response.append(connect)
         response = make_response(str(response))
         response.headers['Content-type'] = 'text/html; charset=utf-8'
@@ -32,7 +32,7 @@ class Twilio:
         return response
     
     def get_document(self, phone_number):
-        document = self.client.sync.services(self.SYNC_SERVICE_SID) \
+        document = self.client.sync.services(self.TWILIO_SYNC_SERVICE_SID) \
             .documents(phone_number) \
                 .fetch()
                 
@@ -58,28 +58,28 @@ class Twilio:
     def store_document(self, data, phone_number):
         """ Store information in Sync document """
         try:
-            document = self.client.sync.services(self.SYNC_SERVICE_SID) \
+            document = self.client.sync.services(self.TWILIO_SYNC_SERVICE_SID) \
                 .documents \
                     .create(data = data, unique_name = phone_number)
         except:
             # There's already a document for this phone number
-            self.client.sync.services(self.SYNC_SERVICE_SID) \
+            self.client.sync.services(self.TWILIO_SYNC_SERVICE_SID) \
                 .documents(phone_number) \
                     .delete()
             
-            document = self.client.sync.services(self.SYNC_SERVICE_SID) \
+            document = self.client.sync.services(self.TWILIO_SYNC_SERVICE_SID) \
                 .documents \
                     .create(data = data, unique_name = phone_number)
 
     def update_document(self, data, phone_number):
         """ Updates an existing document """
         try:
-            self.client.sync.services(self.SYNC_SERVICE_SID) \
+            self.client.sync.services(self.TWILIO_SYNC_SERVICE_SID) \
                 .documents(phone_number) \
                     .delete()
         except:
             None
         
-        self.client.sync.services(self.SYNC_SERVICE_SID) \
+        self.client.sync.services(self.TWILIO_SYNC_SERVICE_SID) \
             .documents \
                 .create(data = data, unique_name = phone_number)
