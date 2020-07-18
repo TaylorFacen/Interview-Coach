@@ -35,7 +35,7 @@ def analyze_responses():
     
     # Send the results back to the user
     twilio.send_sms(text_data['message_1'], phone_number)
-    twilio.send_mms(text_data['absolute_file_location'], phone_number)
+    #twilio.send_mms(text_data['absolute_file_location'], phone_number)
 
     actions = {
         "actions": [
@@ -190,16 +190,16 @@ def analyze_interview_response(responses, phone_number, category):
     message += '\n\n'
 
     message += analyze_filler_phrases(responses)
-    file_name = generate_word_cloud(responses, phone_number)
+    #file_name = generate_word_cloud(responses, phone_number)
     # Get full file path - Using this because I have no idea where Vercel places temporary files
-    for root, dirs, files in os.walk(os.getcwd()):
-        if file_name in files:
-            absolute_file_location = os.path.join(root, file_name)
-            break
+    #for root, dirs, files in os.walk(os.getcwd()):
+    #    if file_name in files:
+    #        absolute_file_location = os.path.join(root, file_name)
+    #        break
     
     text_data['message_1'] = message
-    text_data['file_name'] = file_name
-    text_data['absolute_file_location'] = absolute_file_location
+    #text_data['file_name'] = file_name
+    #text_data['absolute_file_location'] = absolute_file_location
     text_data['phone_number'] = phone_number
 
     return text_data
