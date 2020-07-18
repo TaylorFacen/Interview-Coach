@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 MONGO_URL = os.environ['MONGO_URL']
-VERCEL_URL = os.environ['VERCEL_URL']
+VERCEL_URL = 'https://' + os.environ['VERCEL_URL']
 
 # Twilio Credentials
 TWILIO_ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
