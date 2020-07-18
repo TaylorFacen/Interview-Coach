@@ -1,16 +1,15 @@
 import json
 from flask import request
 
-from .app import app
-from .config import VERCEL_URL
-from .db import 
-from .twilio import Twilio
-
-twilio = Twilio()
+from .helper import app, DB, Twilio
+from .helper.config import VERCEL_URL
 
 @app.route('/api/build_session', methods = ['POST'])
 def build_session():
     """ Builds the questions lists for the interview """
+    db = DB()
+    twilio = Twilio()
+
     req = request.form.to_dict()
     memory = json.loads(req['Memory'])
     phone_number = memory['twilio']['voice']['To']
@@ -19,8 +18,8 @@ def build_session():
     document = twilio.get_document(phone_number)
     data = document.data
 
-    limit = data['limit']
-    category = data['category']
+    limit = int(data['limit'])
+    category = data['category'].lower()
 
     questions = db.get_questions(category = category, limit = limit)
     # Reformat ObjectIds
@@ -46,6 +45,6 @@ def build_session():
                 }
             }
         ]
-    }
+    } 
 
-    return response
+    return actions

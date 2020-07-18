@@ -1,8 +1,8 @@
 from flask import request
 import json
 
-from .app import app
-from .config import VERCEL_URL
+from .helper import app
+from .helper.config import VERCEL_URL
 
 @app.route('/api/ask_question', methods = ['POST'])
 def ask_question():

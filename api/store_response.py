@@ -1,8 +1,8 @@
 from flask import request
 import json
 
-from .app import app
-from .config import VERCEL_URL
+from .helper import app
+from .helper.config import VERCEL_URL
 
 @app.route('/api/store_response', methods = ['POST'])
 def store_response():
@@ -13,11 +13,10 @@ def store_response():
     remaining_questions = memory['remaining_questions']
     current_question = memory['current_question']
 
-    collected_data = memory['twilio']['collected_data']
-
-    start = collected_data['date_started']
-    end = collected_data['date_completed']
-    response = collected_data['answers']['response']['answer']
+    interview_question = memory['twilio']['collected_data']['interview_question']
+    start = interview_question['date_started']
+    end = interview_question['date_completed']
+    response = interview_question['answers']['response']['answer']
 
     responses.append({
         'question': current_question,

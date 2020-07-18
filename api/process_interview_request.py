@@ -1,14 +1,13 @@
 from flask import request
 import json
 
-from .app import app
-from .twilio import Twilio
-
-twilio = Twilio()
+from .helper import app, Twilio
 
 @app.route('/api/process_interview_request', methods = ['POST'])
 def process_interview_request():
     """ Process an incoming interview request from the Autopilot conversation """
+    twilio = Twilio()
+    
     req = request.form.to_dict()
     memory = json.loads(req['Memory'])
     phone_number = memory['twilio']['sms']['From']

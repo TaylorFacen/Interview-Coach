@@ -1,4 +1,4 @@
-import random
+from random import shuffle
 
 from pymongo import MongoClient
 
@@ -36,6 +36,8 @@ class DB:
             }
         ]))
 
-        # Randomly select {limit} records 
+        # Randomly select {limit} records
+        shuffle(questions)
+
         # Not using Mongo's "sample" operation because it could potentially return duplicate objects
-        return random.choices(questions, k = limit)
+        return questions[:limit]
