@@ -126,6 +126,22 @@
                     "taggedText" : "Interview"
                 }
             ]
+        }, {
+            "uniqueName" : "conduct_interview",
+            "actions" : {
+                "actions" : [
+                    {
+                        "say" : "Hello there. Let's get started with your interview."
+                    },
+                    {
+                        "redirect" : {
+                            "uri" : "https://60e11ab5208f.ngrok.io/api/build_session"
+                        }
+                    }
+                ]
+            },
+            "fields" : [],
+            "samples" : []
         }
     ],
     "modelBuild" : {
