@@ -14,12 +14,11 @@
 .hero-image {
     display: flex;
     justify-content: center;
+    padding: 0px !important;
 }
 
 .hero-image img {
-    width: 28vw;
-    min-width: 300px;
-    height: auto;
+    height: 90vh;
 }
 
 .hero-text {
