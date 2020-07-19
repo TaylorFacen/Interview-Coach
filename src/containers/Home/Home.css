@@ -1,0 +1,58 @@
+.Home h1 {
+    color: #64d4d4;
+}
+
+.Home {
+    margin-top: 20px;
+}
+
+.hero {
+    background: #F5F5F5;
+    padding: 5px 30px;
+}
+
+.hero-image {
+    display: flex;
+    justify-content: center;
+}
+
+.hero-image img {
+    width: 28vw;
+    min-width: 300px;
+    height: auto;
+}
+
+.hero-text {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.hero-text p {
+    font-size: 1.375rem;
+}
+
+.app-details {
+    margin-top: 30px !important;
+    text-align: center;
+}
+
+.app-details h5 {
+    font-family: 'Nunito', sans-serif;
+    color: #212B35;
+}
+
+.app-details p {
+    color: #526b84;
+}
+
+.app-details .details-icon {
+    font-size: 60px;
+    color: #64d4d4
+}
+
+.logo-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
