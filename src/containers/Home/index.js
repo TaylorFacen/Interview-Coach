@@ -24,6 +24,7 @@ export default () => (
                 <Image 
                     src = { heroImage } 
                     alt = "Hero image" 
+                    fluid
                 />
             </Col> 
         </Row>
