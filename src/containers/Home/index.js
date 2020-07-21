@@ -32,21 +32,21 @@ export default () => (
             <Image src = { logo } alt = "App logo" />
         </Row>
         <Row className = "app-details">
-            <Col sm = { 12 } md = { 4 } lg = { 4 }>
+            <Col sm = { 12 } md = { 4 } lg = { 4 } className = "app-detail">
                 <h5>Tailored Questions</h5>
                 <div className = "details-icon">
                     <RiQuestionAnswerLine />
                 </div>
                 <p>Select questions based on the type of interview (e.g. behavioral, personal, school, etc.)</p>
             </Col>
-            <Col sm = { 12 } md = { 4 } lg = { 4 }>
+            <Col sm = { 12 } md = { 4 } lg = { 4 } className = "app-detail">
                 <h5>Instant Feedback</h5>
                 <div className = "details-icon">
                     <FaRegThumbsUp />
                 </div>
                 <p>Receive feedback on important metrics like talking speed and number of filler words.</p>
             </Col>
-            <Col sm = { 12 } md = { 4 } lg = { 4 }>
+            <Col sm = { 12 } md = { 4 } lg = { 4 } className = "app-detail">
                 <h5>E-Mail Summary</h5>
                 <div className = "details-icon">
                     <AiOutlineMail />

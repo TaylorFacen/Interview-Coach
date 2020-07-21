@@ -50,6 +50,10 @@
     color: #64d4d4
 }
 
+.app-detail {
+    margin-bottom: 20px;
+}
+
 .logo-section {
     display: flex;
     justify-content: center;
