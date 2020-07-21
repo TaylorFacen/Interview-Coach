@@ -1,12 +1,12 @@
 from dateparser import parse
 from flask import request
+from io import BytesIO
 import json
 import matplotlib.pyplot as plt
-import os
 import re
 from wordcloud import WordCloud
 
-from .helper import app, Twilio
+from .helper import app, Twilio, upload_file
 
 @app.route('/api/analyze_responses', methods = ['POST'])
 def analyze_responses():  
@@ -35,7 +35,7 @@ def analyze_responses():
     
     # Send the results back to the user
     twilio.send_sms(text_data['message_1'], phone_number)
-    #twilio.send_mms(text_data['absolute_file_location'], phone_number)
+    twilio.send_mms(text_data['wordcloud_url'], phone_number)
 
     actions = {
         "actions": [
@@ -170,12 +170,15 @@ def analyze_filler_phrases(responses):
 
 def generate_word_cloud(responses, phone_number):
     file_name = "word_cloud_{}.png".format(phone_number.replace('+', ''))
-    folder = 'tmp/'
     all_responses = ' '.join(list(map(lambda r: r['response'], responses)))
     wordcloud = WordCloud(background_color="white").generate(all_responses)
-    wordcloud.to_file(folder + file_name)
+
+    # Send wordcloud to AWS for storage
+    file_byte = BytesIO()
+    wordcloud.to_image().save(file_byte, 'PNG')
+    file_url = upload_file(file_byte, file_name)
     
-    return file_name
+    return file_url
 
 def analyze_interview_response(responses, phone_number, category):
     text_data = {}
@@ -190,16 +193,10 @@ def analyze_interview_response(responses, phone_number, category):
     message += '\n\n'
 
     message += analyze_filler_phrases(responses)
-    #file_name = generate_word_cloud(responses, phone_number)
-    # Get full file path - Using this because I have no idea where Vercel places temporary files
-    #for root, dirs, files in os.walk(os.getcwd()):
-    #    if file_name in files:
-    #        absolute_file_location = os.path.join(root, file_name)
-    #        break
+    file_url = generate_word_cloud(responses, phone_number)
     
     text_data['message_1'] = message
-    #text_data['file_name'] = file_name
-    #text_data['absolute_file_location'] = absolute_file_location
+    text_data['wordcloud_url'] = file_url
     text_data['phone_number'] = phone_number
 
     return text_data

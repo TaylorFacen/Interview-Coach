@@ -2,7 +2,6 @@ from flask import make_response
 from twilio.rest import Client
 from twilio.twiml.voice_response import Connect, VoiceResponse
 
-from .aws import upload_file
 from .config import VERCEL_URL, TWILIO_ACCOUNT_SID, TWILIO_ASSISTANT_SID, TWILIO_AUTH_TOKEN, TWILIO_SYNC_SERVICE_SID, TWILIO_NUMBER
 
 class Twilio:
@@ -38,12 +37,11 @@ class Twilio:
                 
         return document
     
-    def send_mms(self, file_path, phone_number):
-        file_url = upload_file(file_path)
+    def send_mms(self, wordcloud_url, phone_number):
         self.client.messages.create(
             body = "Here's a word cloud of your top used words.", 
             from_ = self.TWILIO_NUMBER,
-            media_url = [file_url],
+            media_url = [wordcloud_url],
             to = phone_number
         )
 
